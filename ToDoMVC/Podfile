@@ -7,5 +7,6 @@ target 'ToDoMVC' do
 
   # Pods for ToDoMVC
 	pod 'SnapKit'
+	pod 'FSCalendar'
 
 end

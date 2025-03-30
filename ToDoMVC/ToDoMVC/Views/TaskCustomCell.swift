@@ -11,6 +11,15 @@ import SnapKit
 class TaskCustomCell: UITableViewCell {
     static let reuseIdentifier = "TaskCustomCell"
     
+    private let circleView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 15
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.backgroundColor = .green
+        return view
+    }()
+    
     public let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -34,17 +43,23 @@ class TaskCustomCell: UITableViewCell {
     }
     
     private func setupUI() {
+        contentView.addSubview(circleView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         
+        circleView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(30)
+        }
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(16)
+            make.leading.equalTo(circleView.snp.trailing).offset(8)
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(circleView.snp.trailing).offset(8)
             make.bottom.equalToSuperview().offset(-12)
         }
     }

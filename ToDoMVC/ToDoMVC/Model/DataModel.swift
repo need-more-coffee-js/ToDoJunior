@@ -10,4 +10,7 @@ import Foundation
 struct DataModel{
     let title: String
     let taskDescription: String
+    let createdAt: Date
+    let isCompleted: Bool
+    let plannedAt: Date?
 }

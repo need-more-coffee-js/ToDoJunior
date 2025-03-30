@@ -17,6 +17,39 @@ class MainViewController: UIViewController {
         return view
     }()
     
+    private lazy var footerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+    
+    private lazy var iconsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    private let iconItem1: UIView = {
+        let imageView = UIImageView(image: UIImage(systemName: "house.fill"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
+        return imageView
+    }()
+    private let iconItem2: UIView = {
+        let imageView = UIImageView(image: UIImage(systemName: "house.fill"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
+        return imageView
+    }()
+    private let iconItem3: UIView = {
+        let imageView = UIImageView(image: UIImage(systemName: "house.fill"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
+        return imageView
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Мои задачи"
@@ -28,6 +61,9 @@ class MainViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(saveTask), for: .touchUpInside)
+        button.backgroundColor = .systemBlue
+        button.tintColor = .white
+        button.layer.cornerRadius = 15
         return button
     }()
     
@@ -48,6 +84,7 @@ class MainViewController: UIViewController {
         setupUI()
         setupConstraints()
         setupPageViewController()
+        setupStackViewIcons()
     }
     
     // MARK: - Setup and Constraints
@@ -63,6 +100,8 @@ class MainViewController: UIViewController {
         headerView.addSubview(addButton)
         headerView.addSubview(segmentedControl)
         view.addSubview(containerView)
+        view.addSubview(footerView)
+        footerView.addSubview(iconsStackView)
     }
 
     
@@ -81,6 +120,7 @@ class MainViewController: UIViewController {
         addButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-20)
+            make.height.width.equalTo(30)
         }
         
         segmentedControl.snp.makeConstraints { make in
@@ -92,6 +132,22 @@ class MainViewController: UIViewController {
         containerView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        footerView.snp.makeConstraints { make in
+            make.height.equalTo(100)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func setupStackViewIcons(){
+        iconsStackView.addArrangedSubview(iconItem1)
+        iconsStackView.addArrangedSubview(iconItem2)
+        iconsStackView.addArrangedSubview(iconItem3)
+        iconsStackView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(30)
         }
     }
     

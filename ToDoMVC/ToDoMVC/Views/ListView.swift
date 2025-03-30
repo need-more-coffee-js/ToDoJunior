@@ -23,9 +23,9 @@ class ListView: UIViewController {
     }()
     //MARK: - ЗАГЛУШКА ПОКА НЕТ БД
     private var dataModel: [DataModel] = [
-        DataModel(title: "Купить продукты", taskDescription: "Молоко, хлеб, яйца"),
-        DataModel(title: "Реализовать паттеры", taskDescription: "MVC,MVVM, VIPER"),
-        DataModel(title: "Позвонить жене", taskDescription: "Обсудить выходные")
+        DataModel(title: "Купить продукты", taskDescription: "Молоко, хлеб, яйца",createdAt: Date(), isCompleted: false, plannedAt: Date().addingTimeInterval(3600)),
+        DataModel(title: "Реализовать паттеры", taskDescription: "MVC,MVVM, VIPER",createdAt: Date(), isCompleted: false, plannedAt: Date().addingTimeInterval(3600)),
+        DataModel(title: "Позвонить жене", taskDescription: "Обсудить выходные",createdAt: Date(), isCompleted: false, plannedAt: Date().addingTimeInterval(3600))
     ]
     
     override func viewDidLoad() {
