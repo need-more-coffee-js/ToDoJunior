@@ -13,11 +13,26 @@ class TaskCustomCell: UITableViewCell {
     
     private let circleView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 5
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
-        view.backgroundColor = .green
         return view
+    }()
+    
+    private let dayLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
+    
+    private let monthLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
     }()
     
     public let titleLabel: UILabel = {
@@ -33,6 +48,12 @@ class TaskCustomCell: UITableViewCell {
         return label
     }()
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -43,6 +64,8 @@ class TaskCustomCell: UITableViewCell {
     }
     
     private func setupUI() {
+        circleView.addSubview(dayLabel)
+        circleView.addSubview(monthLabel)
         contentView.addSubview(circleView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
@@ -50,8 +73,20 @@ class TaskCustomCell: UITableViewCell {
         circleView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(30)
+            make.width.equalTo(80)
+            make.height.equalToSuperview().multipliedBy(0.9)
         }
+        
+        dayLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-8)
+        }
+        
+        monthLabel.snp.makeConstraints { make in
+            make.top.equalTo(dayLabel.snp.bottom).offset(2)
+            make.centerX.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.leading.equalTo(circleView.snp.trailing).offset(8)
@@ -64,8 +99,25 @@ class TaskCustomCell: UITableViewCell {
         }
     }
     
-    func configure(with dataModel: DataModel) {
-        titleLabel.text = dataModel.title
-        descriptionLabel.text = dataModel.taskDescription
+    func configure(with task: Task) {
+        titleLabel.text = task.title
+        descriptionLabel.text = task.descriptionTask
+        
+        if let createdAt = task.createdAt {
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.day, .month], from: createdAt)
+            
+            dayLabel.text = "\(components.day ?? 0)"
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "ru_RU")
+            dateFormatter.dateFormat = "MMM"
+            monthLabel.text = dateFormatter.string(from: createdAt).capitalized
+        }
+        
+        let isCompleted = task.isCompleted
+        titleLabel.textColor = isCompleted ? .lightGray : .darkText
+        descriptionLabel.textColor = isCompleted ? .lightGray : .darkGray
+        circleView.backgroundColor = isCompleted ? .systemGray4 : .systemGreen
     }
 }
